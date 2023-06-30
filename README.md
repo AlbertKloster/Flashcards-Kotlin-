@@ -1,38 +1,43 @@
-# Stage 1/7: Stage one, card one
+# Stage 2/7: What’s on the card?
 ## Description
-A flashcard is a digital or paper card that contains a term on one side, and a definition, translation, or explanation of that term on the other. Flashcards are often used for learning foreign languages and are an effective study technique for many people.
+Of course, we cannot use flashcards with only one hardcoded card. So let's make our program more dynamic! Let’s create flashcards depending on the user's input and add a primitive guessing mechanism so that the user can check how well they remember the definitions.
 
-![Flashcard: the upper part is the term the user is being asked, the lower part is the correct answer](Anki_flashcard_question_and_answer_math.gif)
-
-<i>An example of a flashcard. The upper part is the term the user is being asked, the lower part is the correct answer. Source: <a href="https://en.wikipedia.org/wiki/Flashcard">Wikipedia</a>.</i>
-
-For this project, we’ll refer to the text on the front of the card as the term, and the text on the back will be the definition. There won't actually be any visual "front" and "back" side of a card: it'll all be done through sequential text. We'll ask the user for the definitions of the terms they previously entered, and check whether the given answers are correct. While developing this application, you will not only learn some programming but also save paper!
+In this stage, you need to implement a custom flashcard-creation mechanism which will be extensively used in further steps, and add a mechanism to check the user's answer.
 
 ## Objectives
-Implement a program that outputs 4 lines:
+Your program should read two lines from the console, a <i>term</i>, and a <i>definition</i>, that represent a card.
 
-- The first line is `Card`:
-- The second line is the term on the front of the card
-- The third line is `Definition`:
-- The fourth line is the definition on the back of the card
+After that, the user inputs a line as an <i>answer</i> (a definition of the term on the card). Compare the user's answer with the correct definition and print the result.
 
-In this stage, the term and the definition can be anything you want.
+The output of the program must contain one of two words:
+
+- `wrong` if the answer doesn't match the definition;
+- `right` if the answer matches the definition.
+Of course, at this point, the user is unlikely to get the answer wrong, since they’re the ones who just typed in the answer... But don’t worry: right now we're just warming up so that in later stages we could make this a bit more challenging for our users.
 
 ## Examples
-Here are some output examples to clarify what the result should look like.
+The greater-than symbol followed by a space (`> `) represents the user input. Note that it's not part of the input.
 
-<b>Example 1.</b>
+<b>Example 1:</b> <i>the user's answer is correct</i>
 ```
-Card:
-purchase
-Definition:
-buy
+Input (a term, then a definition, and, finally, an answer):
+
+> print()
+> outputs text
+> outputs text
+Output:
+
+Your answer is right!
 ```
 
-<b>Example 2.</b>
+<b>Example 2:</b> <i>the user's answer is incorrect</i>
 ```
-Card:
-cos'(x)
-Definition:
--sin(x)
+Input (a term, a definition, an answer):
+
+> Jetbrains
+> A place for people who love to code
+> A place for people who hate to code
+Output:
+
+Your answer is wrong...
 ```

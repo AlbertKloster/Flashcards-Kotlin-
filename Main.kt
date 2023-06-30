@@ -1,10 +1,6 @@
 package flashcards
 
 fun main() {
-    println("""
-        Card:
-        cos'(x)
-        Definition:
-        -sin(x)
-    """.trimIndent())
+    val flashcard = Flashcard(readln(), readln())
+    println("Your answer is  ${if (readln() == flashcard.definition) "right!" else "wrong..."}")
 }
