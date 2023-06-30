@@ -7,6 +7,10 @@ class Flashcards {
         flashcards.add(flashcard)
     }
 
+    fun removeFlashcard(flashcard: Flashcard) {
+        flashcards.remove(flashcard)
+    }
+
     fun getAllFlashcards() = flashcards
 
 }
