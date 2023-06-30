@@ -1,5 +1,10 @@
 package flashcards
 
 fun main() {
-    println("Hello, World!")
+    println("""
+        Card:
+        cos'(x)
+        Definition:
+        -sin(x)
+    """.trimIndent())
 }
