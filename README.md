@@ -58,5 +58,5 @@ Wrong. The right answer is "a brother of one's parent", but your definition is c
 Print the definition of "ankle":
 > ???
 Wrong. The right answer is "a part of the body where the foot and the leg meet".
-Note that all your outputs and user inputs should be on separate lines.
 ```
+<i>Note that all your outputs and user inputs should be on separate lines.</i>
