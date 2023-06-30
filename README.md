@@ -1,20 +1,22 @@
-# Stage 3/7: Make it your own
+# Stage 4/7: A good stack
 ## Description
-Your program can only entertain users with one card, which isn’t really fun. Let's take our game to the next level and implement a set of flashcards.
+While learning new things, we may mix things up and use the right definition for the wrong term. Let's inform our players if they enter the definition that is wrong for the requested flashcard but correct for another flashcard in our set.
 
-Let the user decide how many cards they would like to make. First, ask the player to enter the desired number of cards. Then, ask them to input the term and the definition for every flashcard.
+Also, it might be very confusing if our flashcard set contains cards with the same term or definition, since seeing only one side of the card we can't tell them apart. Let's add a constraint: the user must add only unique terms and definitions. To do this, you need to find a way to check whether the set contains a particular term or definition and get the term by the definition, and vice versa.
 
-In the end, once all flashcards have been defined and saved, your program is finally ready to be used as a game! Question the player about all the new words they have entered. The program should give the term and ask for its definition.
+These two features will definitely improve our game!
 
 ## Objectives
-Your program should do the following:
+Modify your program to behave the following way:
 
-- Get the number of flashcards the user would like to create. To do that, print the line `Input the number of cards:` as a prompt for the user, and then read the number from the next line.
-- Create the defined amount of cards in a loop. To create a flashcard, print the line `Card #n:` where `n` is the index number of the card to be created; then read the user's input (the term) from the following line. Then print the line `The definition for card #n:` and read the user's definition of the term from the next line. Repeat until all the flashcards are created.
-- Test the user on their knowledge of the definitions of all terms in the order they were added. To do that with one flashcard, print the line `Print the definition of "term":` where `term` is the term of the flashcard to be checked, and then read the user's answer from the following line. Make sure to put the term of the flashcard in quotes. Then print the line `Correct!` if the user's answer is correct, or the line `Wrong. The right answer is "definition".` if the answer is incorrect, where `definition` is the correct definition. Repeat for all the flashcards in the set.
+- When the user tries to add a duplicate term, forbid it and output the message `The term "term" already exists. Try again:` using the term instead of `term`. Ask for the term until the user inputs a unique term.
+- When the user tries to add a duplicate definition, forbid it and Output the message `The definition "definition" already exists. Try again:` with the definition instead of `definition`. Ask the player to input the definition until the user inputs a unique one.
+- When the user enters the wrong definition for the requested term, but this definition is correct for another term, print the appropriate message `Wrong. The right answer is "correct answer", but your definition is correct for "term for user's answer".`, where `correct answer` is the actual definition for the requested term, and `term for user's answer` is the appropriate term for the user-entered definition.
 
-## Example
+## Examples
 The symbol `>` represents the user input. Note that it's not part of the input.
+
+<b>Example 1:</b> <i>the user tries to add duplicated term and definition</i>
 ```
 Input the number of cards:
 > 2
@@ -23,14 +25,38 @@ Card #1:
 The definition for card #1:
 > outputs text
 Card #2:
+> print()
+The term "print()" already exists. Try again:
 > str()
 The definition for card #2:
+> outputs text
+The definition "outputs text" already exists. Try again:
 > converts to a string
 Print the definition of "print()":
 > outputs text
 Correct!
 Print the definition of "str()":
-> outputs text
-Wrong. The right answer is "converts to a string".
+> converts to a string
+Correct!
 ```
-<i>Note that all your outputs and user inputs should be on separate lines.</i>
+
+<b>Example 2:</b> <i>the user gives a correct definition for a term that exists, but which is not the term that the program is asking about</i>
+```
+Input the number of cards:
+> 2
+Card #1:
+> uncle
+The definition for card #1:
+> a brother of one's parent
+Card #2:
+> ankle
+The definition for card #2:
+> a part of the body where the foot and the leg meet
+Print the definition of "uncle":
+> a part of the body where the foot and the leg meet
+Wrong. The right answer is "a brother of one's parent", but your definition is correct for "ankle".
+Print the definition of "ankle":
+> ???
+Wrong. The right answer is "a part of the body where the foot and the leg meet".
+Note that all your outputs and user inputs should be on separate lines.
+```
