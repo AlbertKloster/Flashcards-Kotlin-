@@ -1,43 +1,36 @@
-# Stage 2/7: What’s on the card?
+# Stage 3/7: Make it your own
 ## Description
-Of course, we cannot use flashcards with only one hardcoded card. So let's make our program more dynamic! Let’s create flashcards depending on the user's input and add a primitive guessing mechanism so that the user can check how well they remember the definitions.
+Your program can only entertain users with one card, which isn’t really fun. Let's take our game to the next level and implement a set of flashcards.
 
-In this stage, you need to implement a custom flashcard-creation mechanism which will be extensively used in further steps, and add a mechanism to check the user's answer.
+Let the user decide how many cards they would like to make. First, ask the player to enter the desired number of cards. Then, ask them to input the term and the definition for every flashcard.
+
+In the end, once all flashcards have been defined and saved, your program is finally ready to be used as a game! Question the player about all the new words they have entered. The program should give the term and ask for its definition.
 
 ## Objectives
-Your program should read two lines from the console, a <i>term</i>, and a <i>definition</i>, that represent a card.
+Your program should do the following:
 
-After that, the user inputs a line as an <i>answer</i> (a definition of the term on the card). Compare the user's answer with the correct definition and print the result.
+- Get the number of flashcards the user would like to create. To do that, print the line `Input the number of cards:` as a prompt for the user, and then read the number from the next line.
+- Create the defined amount of cards in a loop. To create a flashcard, print the line `Card #n:` where `n` is the index number of the card to be created; then read the user's input (the term) from the following line. Then print the line `The definition for card #n:` and read the user's definition of the term from the next line. Repeat until all the flashcards are created.
+- Test the user on their knowledge of the definitions of all terms in the order they were added. To do that with one flashcard, print the line `Print the definition of "term":` where `term` is the term of the flashcard to be checked, and then read the user's answer from the following line. Make sure to put the term of the flashcard in quotes. Then print the line `Correct!` if the user's answer is correct, or the line `Wrong. The right answer is "definition".` if the answer is incorrect, where `definition` is the correct definition. Repeat for all the flashcards in the set.
 
-The output of the program must contain one of two words:
-
-- `wrong` if the answer doesn't match the definition;
-- `right` if the answer matches the definition.
-Of course, at this point, the user is unlikely to get the answer wrong, since they’re the ones who just typed in the answer... But don’t worry: right now we're just warming up so that in later stages we could make this a bit more challenging for our users.
-
-## Examples
-The greater-than symbol followed by a space (`> `) represents the user input. Note that it's not part of the input.
-
-<b>Example 1:</b> <i>the user's answer is correct</i>
+## Example
+The symbol `>` represents the user input. Note that it's not part of the input.
 ```
-Input (a term, then a definition, and, finally, an answer):
-
+Input the number of cards:
+> 2
+Card #1:
 > print()
+The definition for card #1:
 > outputs text
+Card #2:
+> str()
+The definition for card #2:
+> converts to a string
+Print the definition of "print()":
 > outputs text
-Output:
-
-Your answer is right!
+Correct!
+Print the definition of "str()":
+> outputs text
+Wrong. The right answer is "converts to a string".
 ```
-
-<b>Example 2:</b> <i>the user's answer is incorrect</i>
-```
-Input (a term, a definition, an answer):
-
-> Jetbrains
-> A place for people who love to code
-> A place for people who hate to code
-Output:
-
-Your answer is wrong...
-```
+<i>Note that all your outputs and user inputs should be on separate lines.</i>
