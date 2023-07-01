@@ -7,13 +7,13 @@ class FlashcardsService {
     private val fileHandler = FileHandler()
 
     private fun getTerm(): String {
-        val term = readln()
+        val term = Logger.read()
         if (getAllFlashcardsByTerm(term).isEmpty()) return term
         throw RuntimeException("The card \"$term\" already exists.")
     }
 
     private fun getDefinition(): String {
-        val definition = readln()
+        val definition = Logger.read()
         if (getAllFlashcardsByDefinition(definition).isEmpty()) return definition
         throw RuntimeException("The definition \"$definition\" already exists.")
     }
@@ -24,36 +24,36 @@ class FlashcardsService {
         flashcards.getAllFlashcards().filter { it.definition == definition }
 
     fun add() {
-        println("The card:")
+        Logger.print("The card:")
         val term = getTerm()
-        println("The definition of the card:")
+        Logger.print("The definition of the card:")
         val definition = getDefinition()
         flashcards.addFlashcard(Flashcard(term, definition))
-        println("The pair (\"$term\":\"$definition\") has been added.")
+        Logger.print("The pair (\"$term\":\"$definition\") has been added.")
     }
 
     fun remove() {
-        println("Which card?")
-        val term = readln()
+        Logger.print("Which card?")
+        val term = Logger.read()
         val allFlashcardsByTerm = getAllFlashcardsByTerm(term)
         if (allFlashcardsByTerm.isEmpty()) throw RuntimeException("Can't remove \"$term\": there is no such card.")
         flashcards.removeFlashcard(allFlashcardsByTerm.first())
-        println("The card has been removed.")
+        Logger.print("The card has been removed.")
     }
 
     fun export() {
-        println("File name:")
-        val filename = readln()
-        fileHandler.write(flashcards.getAllFlashcards(), filename)
-        println("${flashcards.getAllFlashcards().size} cards have been saved.")
+        Logger.print("File name:")
+        val filename = Logger.read()
+        fileHandler.saveFlashcards(flashcards.getAllFlashcards(), filename)
+        Logger.print("${flashcards.getAllFlashcards().size} cards have been saved.")
     }
 
     fun import() {
-        println("File name:")
-        val filename = readln()
-        val flashcardList = fileHandler.read(filename)
+        Logger.print("File name:")
+        val filename = Logger.read()
+        val flashcardList = fileHandler.readFlashcards(filename)
         addAll(flashcardList)
-        println("${flashcardList.size} cards have been loaded.")
+        Logger.print("${flashcardList.size} cards have been loaded.")
     }
 
     private fun addAll(flashcardList: List<Flashcard>) {
@@ -67,19 +67,52 @@ class FlashcardsService {
     }
 
     fun ask() {
-        println("How many times to ask?")
-        val numberOfQuestions = readln().toInt()
+        Logger.print("How many times to ask?")
+        val numberOfQuestions = Logger.read().toInt()
         val random = Random()
         for (questionNumber in 1..numberOfQuestions) {
             val flashcard = flashcards.getAllFlashcards()[random.nextInt(0, flashcards.getAllFlashcards().size)]
-            println("Print the definition of \"${flashcard.term}\":")
-            val answer = readln()
+            Logger.print("Print the definition of \"${flashcard.term}\":")
+            val answer = Logger.read()
             val allFlashcardsByDefinition = getAllFlashcardsByDefinition(answer)
-            if (allFlashcardsByDefinition.isEmpty()) println("Wrong. The right answer is \"${flashcard.definition}\".")
-            else if (allFlashcardsByDefinition.first() == flashcard) println("Correct!")
-            else if (allFlashcardsByDefinition.first() != flashcard) println("Wrong. The right answer is \"${flashcard.definition}\", but your definition is correct for \"${allFlashcardsByDefinition.first().term}\".")
+            if (allFlashcardsByDefinition.isEmpty()) {
+                Logger.print("Wrong. The right answer is \"${flashcard.definition}\".")
+                flashcard.errors++
+            } else if (allFlashcardsByDefinition.first() == flashcard) {
+                Logger.print("Correct!")
+            } else if (allFlashcardsByDefinition.first() != flashcard) {
+                Logger.print("Wrong. The right answer is \"${flashcard.definition}\", but your definition is correct for \"${allFlashcardsByDefinition.first().term}\".")
+                flashcard.errors++
+            }
         }
     }
 
+    fun log() {
+        Logger.print("File name:")
+        fileHandler.saveLogBook(Logger.read())
+        println("The log has been saved.")
+    }
+
+    fun hardestCard() {
+        val allFlashcards = flashcards.getAllFlashcards()
+        if (allFlashcards.isEmpty()) {
+            Logger.print("There are no cards with errors.")
+            return
+        }
+        val maxError = allFlashcards.maxOf { it.errors }
+        if (maxError == 0) {
+            Logger.print("There are no cards with errors.")
+            return
+        }
+        val maxErrorFlashcards = allFlashcards.filter { it.errors == maxError }
+        if (maxErrorFlashcards.isEmpty()) Logger.print("There are no cards with errors.")
+        if (maxErrorFlashcards.size == 1) Logger.print("The hardest card is \"${maxErrorFlashcards.first().term}\". You have $maxError errors answering it.")
+        if (maxErrorFlashcards.size > 1) Logger.print("The hardest cards are \"${maxErrorFlashcards.joinToString("\", \"") { it.term }}\". You have $maxError errors answering them.")
+    }
+
+    fun resetStats() {
+        flashcards.getAllFlashcards().forEach { it.errors = 0 }
+        Logger.print("Card statistics have been reset.")
+    }
 
 }
