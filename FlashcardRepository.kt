@@ -1,6 +1,6 @@
 package flashcards
 
-class Flashcards {
+class FlashcardRepository {
     private val flashcards = mutableListOf<Flashcard>()
 
     fun addFlashcard(flashcard: Flashcard) {

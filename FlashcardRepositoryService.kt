@@ -2,8 +2,8 @@ package flashcards
 
 import java.util.*
 
-class FlashcardsService {
-    private val flashcards = Flashcards()
+class FlashcardRepositoryService {
+    private val flashcards = FlashcardRepository()
     private val fileHandler = FileHandler()
 
     private fun getTerm(): String {
@@ -41,16 +41,22 @@ class FlashcardsService {
         Logger.print("The card has been removed.")
     }
 
-    fun export() {
-        Logger.print("File name:")
-        val filename = Logger.read()
+    fun export(exportFilename: String?) {
+        var filename = exportFilename
+        if (filename == null) {
+            Logger.print("File name:")
+            filename = Logger.read()
+        }
         fileHandler.saveFlashcards(flashcards.getAllFlashcards(), filename)
         Logger.print("${flashcards.getAllFlashcards().size} cards have been saved.")
     }
 
-    fun import() {
-        Logger.print("File name:")
-        val filename = Logger.read()
+    fun import(importFilename: String?) {
+        var filename = importFilename
+        if (filename == null) {
+            Logger.print("File name:")
+            filename = Logger.read()
+        }
         val flashcardList = fileHandler.readFlashcards(filename)
         addAll(flashcardList)
         Logger.print("${flashcardList.size} cards have been loaded.")
@@ -69,21 +75,23 @@ class FlashcardsService {
     fun ask() {
         Logger.print("How many times to ask?")
         val numberOfQuestions = Logger.read().toInt()
+        repeat(numberOfQuestions) { askQuestion() }
+    }
+
+    private fun askQuestion() {
         val random = Random()
-        for (questionNumber in 1..numberOfQuestions) {
-            val flashcard = flashcards.getAllFlashcards()[random.nextInt(0, flashcards.getAllFlashcards().size)]
-            Logger.print("Print the definition of \"${flashcard.term}\":")
-            val answer = Logger.read()
-            val allFlashcardsByDefinition = getAllFlashcardsByDefinition(answer)
-            if (allFlashcardsByDefinition.isEmpty()) {
-                Logger.print("Wrong. The right answer is \"${flashcard.definition}\".")
-                flashcard.errors++
-            } else if (allFlashcardsByDefinition.first() == flashcard) {
-                Logger.print("Correct!")
-            } else if (allFlashcardsByDefinition.first() != flashcard) {
-                Logger.print("Wrong. The right answer is \"${flashcard.definition}\", but your definition is correct for \"${allFlashcardsByDefinition.first().term}\".")
-                flashcard.errors++
-            }
+        val flashcard = flashcards.getAllFlashcards()[random.nextInt(0, flashcards.getAllFlashcards().size)]
+        Logger.print("Print the definition of \"${flashcard.term}\":")
+        val answer = Logger.read()
+        val allFlashcardsByDefinition = getAllFlashcardsByDefinition(answer)
+        if (allFlashcardsByDefinition.isEmpty()) {
+            Logger.print("Wrong. The right answer is \"${flashcard.definition}\".")
+            flashcard.errors++
+        } else if (allFlashcardsByDefinition.first() == flashcard) {
+            Logger.print("Correct!")
+        } else if (allFlashcardsByDefinition.first() != flashcard) {
+            Logger.print("Wrong. The right answer is \"${flashcard.definition}\", but your definition is correct for \"${allFlashcardsByDefinition.first().term}\".")
+            flashcard.errors++
         }
     }
 
